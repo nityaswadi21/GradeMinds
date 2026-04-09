@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTodoStore } from '../../store/useTodoStore';
 import { useTimetableStore } from '../../store/useTimetableStore';
 import { useAttendanceStore } from '../../store/useAttendanceStore';
+import { useSubjectsStore } from '../../store/useSubjectsStore';
 
 const DAYS = [
   { letter: 'M', date: 24, hasClass: true },
@@ -54,6 +55,8 @@ export default function Home() {
   const currentClass = getCurrentClass();
   const { getOverallAttendance } = useAttendanceStore();
   const overallAttendance = getOverallAttendance();
+  const cgpa = useSubjectsStore((s) => s.getOverallCGPA());
+  const subjectCount = useSubjectsStore((s) => s.subjects.filter((x) => x.isCurrentSemester).length);
 
   const activeTodos = todos
     .filter((t) => !t.completed)
@@ -89,14 +92,14 @@ export default function Home() {
       <View style={styles.statsRow}>
         <View style={styles.statCard}>
           <Ionicons name="medal-outline" size={28} color="#F59E0B" style={styles.statIcon} />
-          <Text style={styles.statValue}>8.6</Text>
+          <Text style={styles.statValue}>{cgpa.toFixed(1)}</Text>
           <Text style={styles.statLabel}>CGPA</Text>
         </View>
-        <View style={styles.statCard}>
+        <TouchableOpacity style={styles.statCard} onPress={() => router.push('/subjects')} activeOpacity={0.75}>
           <Ionicons name="book-outline" size={28} color="#10B981" style={styles.statIcon} />
-          <Text style={styles.statValue}>6</Text>
+          <Text style={styles.statValue}>{subjectCount}</Text>
           <Text style={styles.statLabel}>SUBJECTS</Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.statCard}>
           <Ionicons name="flash-outline" size={28} color="#7C3AED" style={styles.statIcon} />
           <Text style={styles.statValue}>12</Text>
