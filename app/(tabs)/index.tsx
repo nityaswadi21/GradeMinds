@@ -13,6 +13,7 @@ import { useTodoStore } from '../../store/useTodoStore';
 import { useTimetableStore } from '../../store/useTimetableStore';
 import { useAttendanceStore } from '../../store/useAttendanceStore';
 import { useSubjectsStore } from '../../store/useSubjectsStore';
+import { useAuthStore } from '../../store/useAuthStore';
 
 const DAYS = [
   { letter: 'M', date: 24, hasClass: true },
@@ -55,6 +56,9 @@ export default function Home() {
   const currentClass = getCurrentClass();
   const { getOverallAttendance } = useAttendanceStore();
   const overallAttendance = getOverallAttendance();
+  const avatar = useAuthStore((s) => s.avatar);
+  const userName = useAuthStore((s) => s.user?.name ?? 'Student');
+  const firstName = userName.split(' ')[0];
   const cgpa = useSubjectsStore((s) => s.getOverallCGPA());
   const subjectCount = useSubjectsStore((s) => s.subjects.filter((x) => x.isCurrentSemester).length);
 
@@ -80,11 +84,11 @@ export default function Home() {
       {/* Header */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.greeting}>Good morning 🌤</Text>
+          <Text style={styles.greeting}>Good morning, {firstName} 🌤</Text>
           <Text style={styles.brand}>GradeMinds</Text>
         </View>
         <View style={styles.avatar}>
-          <Text style={styles.avatarText}>RS</Text>
+          <Text style={styles.avatarText}>{avatar || 'S'}</Text>
         </View>
       </View>
 

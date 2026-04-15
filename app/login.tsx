@@ -10,9 +10,11 @@ import {
   Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useAuthStore } from '../store/useAuthStore';
 
 export default function Login() {
   const router = useRouter();
+  const login = useAuthStore((s) => s.login);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +31,7 @@ export default function Login() {
     setError('');
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 800));
+    login(email.trim(), password);
     setIsLoading(false);
     router.replace('/(tabs)/');
   };
