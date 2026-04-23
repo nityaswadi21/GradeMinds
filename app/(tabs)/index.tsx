@@ -274,6 +274,7 @@ export default function Home() {
                 onPress={() => {
                   if (item.label === 'Timetable') router.push('/timetable');
                   if (item.label === 'Attendance') router.push('/attendance');
+		  if (item.label === 'Grade Graph') router.push('/grades-graph');
                 }}
               >
                 <Ionicons name={item.icon as any} size={32} color={item.color} />
